@@ -75,3 +75,53 @@
 5. ZCARD key：返回有序集合中的元素數量。
 6. ZSCORE key member：獲取指定元素的分數。
 7. ZSCAN key cursor [MATCH pattern] [COUNT count]: 同set的用法
+
+
+
+## 建立 Redis 連線
+import redis ( 或 from redis import Redis)
+r = redis.Redis(host="localhost", port=6379, db=0,  decode_responses=True)  或用Redis()
+
+# 設置與獲取鍵值
+r.set("name", "Alice")
+print(r.get("name"))  # 輸出: Alice
+
+## 基本鍵值操作
+1. r.set(key, value) - 設置鍵值對
+2. r.get(key) - 獲取鍵值
+3. r.delete(key) - 刪除鍵
+
+---
+
+## 列表操作
+1. r.lpush(key, value) - 在列表左側插入元素
+2. r.rpush(key, value) - 在列表右側插入元素
+3. r.lpop(key) - 從左側彈出元素
+4. r.rpop(key) - 從右側彈出元素
+5. r.lrange(key, start, stop) - 獲取列表指定範圍內的元素
+
+---
+
+## 集合操作
+1. r.sadd(key, value) - 添加元素到集合
+2. r.srem(key, value) - 刪除集合中的元素
+3. r.smembers(key) - 獲取集合中的所有元素
+
+---
+
+## 哈希表操作
+1. r.hset(key, field, value) - 設置哈希表中的鍵值對
+2. r.hget(key, field) - 獲取哈希表中指定欄位的值
+3. r.hdel(key, field) - 刪除哈希表中的指定欄位
+4. r.hgetall(key) - 獲取整個哈希表
+
+---
+
+## 發佈與訂閱 (Pub/Sub)
+1. r.publish(channel, message) - 發佈消息到頻道
+2. r.pubsub() - 創建一個訂閱對象
+3. r.subscribe(channel) - 訂閱頻道
+4. r.unsubscribe(channel) - 取消訂閱頻道
+
+---
+
