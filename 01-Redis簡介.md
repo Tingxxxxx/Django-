@@ -21,6 +21,9 @@
 3. EXISTS key: 判斷該鍵是否存在
 4. TYPE key: 查看該鍵的數據類型
 5. DEL key1 key2...: 刪除指定的鍵，可以一次多個
+6. EXPIRE key seconds: 設置鍵的過期時間。
+7. ttl key: 可查看該鍵離過期剩餘的秒數
+
 
 ## Strinn 基本命令
 1. SET key value：設置指定鍵的值。
@@ -41,9 +44,34 @@
 6. HKEYS key: 獲取哈希表中所有的欄位名（`field`）
 7. HVALS key: 獲取哈希表中所有欄位的值（`value`）
 
+## List 基本命令:
+1. LPUSH key value1 value2 ... : 從列表左側插入元素
+2. RPUSH key value1 value2 ... : 從列表右側插入元素
+3. LRANGE key start end: 獲取從下標 start 到 end 的所有元素(0 -1 即可取到全部)
+4. LREM  key count value: 移除指定元素，count 代表匹配到要刪的數量
+    - count = 0：移除所有匹配的元素。
+    - count > 0：從左側開始移除最多 count 個匹配的元素。
+    - count < 0：從右側開始移除最多 count 個匹配的元素。
 
+## Set 基本命令:
+# 特性: 1.無序 2.元素都為string類型 3.不能重複 4.集合為不可變類型，增刪操作實際是新集合覆蓋舊的
+1. SADD key value1 value2 ...：向集合添加元素。
+2. SREM key value：移除集合中的元素。
+3. SMEMBERS key：返回集合中所有元素。
+4. SSCARD key : 返回集合中的元素數量。
+4. SISMEMBER key value：檢查元素是否存在於集合中。
+5. SRANDMEMBER key count: 隨機返回集合中 count 個元素
+5. SSCAN key cursor [MATCH pattern] [COUNT count]: 分批遍歷集合中的元素，可以使用 MATCH 過濾符合條件的元素，COUNT 設定每次掃描的元素數量。
+    - cursor：用於遍歷過程中的位置標記。初次為 0，之後根據返回的游標繼續遍歷。
+    - MATCH pattern: 過濾條件，根據模式匹配元素。
+    - COUNT count: 返回的元素數量限制，雖然不保證精確數量，但用於調整遍歷的效率
 
-
-
-
-
+## Zset 基本命令:
+# 特性:1. 有序且按分數排序 2.元素是唯一，但分數可以重複 3. 每個元素由 member + score 組成。
+1. ZADD key score member1 score member2 ...：向有序集合添加元素，並為每個元素指定分數。如果元素已存在，則更新其分數。
+2. ZREM key member1 member2 ...：移除有序集合中的指定元素。
+3. ZRANGE key start stop [WITHSCORES]：返回下標 start 到 stop 區間的元素(分數低到高排序)，WITHSCORES 可選，表示是否一同返回分數。
+4. ZREVRANGE key start stop [WITHSCORES]: 同上，但返回的順序是score從高到低
+5. ZCARD key：返回有序集合中的元素數量。
+6. ZSCORE key member：獲取指定元素的分數。
+7. ZSCAN key cursor [MATCH pattern] [COUNT count]: 同set的用法
