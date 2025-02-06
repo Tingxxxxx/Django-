@@ -1,5 +1,8 @@
 # Redis 筆記
 
+## 連線到資料庫方式
+cmd命令行: redis-cli
+
 ## 主要特點
 1. 基於內存的，高效能的鍵值資料庫(Key-Value)
 2. 非關係型資料庫(noSql)
@@ -25,7 +28,7 @@
 7. ttl key: 可查看該鍵離過期剩餘的秒數
 
 
-## Strinn 基本命令
+## String 基本命令
 1. SET key value：設置指定鍵的值。
 2. GET key：獲取指定鍵的值。
 3. SETEX key 秒數 value:設置帶有過期時間的鍵
@@ -78,14 +81,15 @@
 
 
 
-## 建立 Redis 連線
-import redis ( 或 from redis import Redis)
-r = redis.Redis(host="localhost", port=6379, db=0,  decode_responses=True)  或用Redis()
+## 在 python 建立 Redis 連線
+```python
+import redis # 或 from redis import Redis)
+r = redis.Redis(host="localhost", port=6379, db=0,  decode_responses=True)  # 或用Redis()
 
 # 設置與獲取鍵值
 r.set("name", "Alice")
 print(r.get("name"))  # 輸出: Alice
-
+```
 ## 基本鍵值操作
 1. r.set(key, value) - 設置鍵值對
 2. r.get(key) - 獲取鍵值
