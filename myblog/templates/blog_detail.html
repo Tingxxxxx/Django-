@@ -1,0 +1,55 @@
+{% extends "base.html" %}
+{% load static %}
+{% block title %}文章詳情頁{% endblock title %}
+{% block main %}
+<main class="container bg-white p-3 rounded">
+  <h1>中華隊賽程</h1>
+  <hr>
+  <div class="mt-2">
+    <img src="{% static "images/logo.png" %} " class="rounded-circle" width="30" height="30" alt="">
+    <span class="ms-2">HELLEN</span>
+    <span class="ms-2">於</span>
+    <span class="ms-2">2025/02/15</span>發佈
+  </div>
+  <hr>
+    <div class="py-2">
+      這裡是文章詳情~~~
+    </div>
+    <hr>
+    <div class="mt-2">
+      <h5>評論(0)</h3>
+        <form action="" method='POST'>
+          <div class="mt-2">
+            <input type="text" class='form-control' placeholder='請輸入評論'>
+          </div>
+          <div class='text-end mt-2'>
+            <button type="button" class="btn btn-primary">評論</button>
+          </div>
+        </form>
+    </div>
+    <div class="mt-2">
+      <ul class="list-group">
+        <li class="list-group-item">
+          <div class="d-flex justify-content-between text-secondary" >
+            <div class="user-info">
+              <img src="{% static "images/logo.png" %} " class="rounded-circle" width="40" height="40" alt="">
+              <span class="ms-2">HELLEN</span>
+            </div>
+            <div class="create_time align-self-center">2025/02/15 07:30 PM</div>
+          </div>
+          <div class="mt-3">這是評論內容~</div>
+        </li>
+        <li class="list-group-item mb-3 ">
+          <div class="d-flex justify-content-between text-secondary" >
+            <div class="user-info">
+              <img src="{% static "images/logo.png" %} " class="rounded-circle" width="40" height="40" alt="">
+              <span class="ms-2">HELLEN</span>
+            </div>
+            <div class="create_time align-self-center">2025/02/15 07:30 PM</div>
+          </div>
+          <div class="mt-3">這是評論內容~</div>
+        </li>
+      </ul>
+    </div>
+</main>
+{% endblock main %}

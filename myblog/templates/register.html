@@ -1,0 +1,38 @@
+{% extends "base.html" %}
+{% block title %}註冊頁面{% endblock title %}
+{% block main %}
+<main class="container bg-white p-3 rounded">
+  <div style="max-width: 400px;" class="m-auto">
+      <h1 class="mb-4">註冊</h1>
+      <form action="" method="POST">
+          <!-- 用戶名 -->
+          <div class="mb-3">
+              <label for="username" class="form-label">用戶名</label>
+              <input type="text" class="form-control" id="username" placeholder="請輸入用戶名" name="username" required>
+          </div>
+          <!-- 信箱 -->
+          <div class="mb-3">
+              <label for="email" class="form-label">信箱</label>
+              <input type="email" class="form-control" id="email" placeholder="請輸入電子信箱" name="email" required>
+          </div>
+          <!-- 驗證碼 -->
+          <div class="mb-3">
+              <label for="captcha" class="form-label">驗證碼</label>
+              <div class="input-group">
+                  <input type="text" class="form-control" id="captcha" placeholder="請輸入驗證碼" name="captcha" required>
+                  <button class="btn btn-outline-secondary" type="button">獲取驗證碼</button>
+              </div>
+          </div>
+          <!-- 密碼 -->
+          <div class="mb-3">
+              <label for="password" class="form-label">密碼</label>
+              <input type="password" class="form-control" id="password" placeholder="請輸入密碼" name="password" required>
+          </div>
+          <!-- 註冊按鈕 -->
+          <div class="mb-3">
+              <button type="submit" class="btn btn-primary w-100">立即註冊</button>
+          </div>
+      </form>
+  </div>
+</main>
+{% endblock main %}

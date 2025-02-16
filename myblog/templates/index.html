@@ -1,0 +1,46 @@
+{% extends "base.html" %}
+{% load static %}
+{% block title %}首頁{% endblock title %}
+{% block main %}
+<main class="container bg-white p-3 rounded">
+  <h1>文章列表</h1>
+  <div class="row row-cols-2 row-gap-4">
+    <div class="cow"> 
+      <div class="card">
+        <div class="card-header">
+          <a href="#">台灣世界第一</a>
+        </div>
+        <div class="card-body" style="height: 180px;">
+          <h5 class="card-title">Special title treatment</h5>
+          <p class="card-text">With supporting text below as a natural lead-in to additional content.</p>
+        </div>
+        <div class="card-footer text-body-secondary d-flex justify-content-between">
+          <div>
+            <img src="{% static 'images/logo.png' %}" class="rounded-circle" width="30" height="30" alt="">
+            HELLEN
+          </div>
+          <div>發布時間:2025/02/15 07:30 pm</div>
+        </div>
+      </div>
+    </div>
+    <div class="cow"> 
+      <div class="card">
+        <div class="card-header">
+          <a href="#">台灣世界第一</a>
+        </div>
+        <div class="card-body" style="height: 180px;">
+          <h5 class="card-title">Special title treatment</h5>
+          <p class="card-text">With supporting text below as a natural lead-in to additional content.</p>
+        </div>
+        <div class="card-footer text-body-secondary d-flex justify-content-between">
+          <div>
+            <img src="{% static 'images/logo.png' %}" class="rounded-circle" width="30" height="30" alt="">
+            HELLEN
+          </div>
+          <div>發布時間:2025/02/15 07:30 pm</div>
+        </div>
+      </div>
+    </div>
+  </div>
+</main>
+{% endblock main %}

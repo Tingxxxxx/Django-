@@ -1,0 +1,61 @@
+{% extends "base.html" %}
+{% load static %}
+{% block title %}發布文章{% endblock title %}
+{% block head %}
+</style>
+<!-- 引入 wangeditor CSS -->
+<link href="https://unpkg.com/@wangeditor/editor@latest/dist/css/style.css" rel="stylesheet">
+
+<!-- 引入 js -->
+<script src="https://unpkg.com/@wangeditor/editor@latest/dist/index.js"></script>
+<script>
+    var E = window.wangEditor; // 全局變量
+</script>
+<script src="{% static 'js/pub_blog.js' %}"></script>
+<style>
+  #editor—wrapper {
+    border: 1px solid #ccc;
+    z-index: 100; /* 按需定義 */
+  }
+  #toolbar-container {
+    border-bottom: 1px solid #ccc;
+  }
+  #editor-container {
+    height: 500px;
+  }
+</style>
+{% endblock head %}
+
+{% block main %}
+<main class="container bg-white p-3 rounded">
+    <h1>發布文章</h1>
+    <div class="mt-2">
+      <form action="" method="POST">
+        <div class="mb-3">
+          <label class="form-label">標題</label>
+          <input type="text" name = title class="form-control">
+        </div>
+
+        <div class="mb-3">
+          <label class="form-label">分類</label>
+          <select name="category" class="form.select">
+            <option value="1">選項1</option>
+            <option value="2">選項2</option>
+          </select>
+        </div>
+        <div class="mb-3">
+          <label class="form-label">內容</label>
+            <div id="editor-wrapper">
+              <div id="toolbar-container"><!-- 工具欄 --></div>
+              <div id="editor-container"><!-- 編輯器 --></div>
+            </div>
+            <div class="mb-3 text-end">
+              <button class="btn btn-primary">發布</button>
+            </div>
+        </div>
+
+      </form>
+    </div>
+      
+  </main>
+{% endblock main %}
