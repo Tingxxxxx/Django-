@@ -12,6 +12,7 @@ https://docs.djangoproject.com/en/5.1/ref/settings/
 
 from pathlib import Path
 
+
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
 
@@ -75,14 +76,20 @@ WSGI_APPLICATION = 'myblog.wsgi.application'
 # Database
 # https://docs.djangoproject.com/en/5.1/ref/settings/#databases
 
+# 配置mysql資料庫
 DATABASES = {
     'default': {
-        'ENGINE': 'django.db.backends.sqlite3',
-        'NAME': BASE_DIR / 'db.sqlite3',
-    }
+        'ENGINE': 'django.db.backends.mysql',  # 使用 mysql引擎
+        'NAME':'blog_db',
+        'USER':'root',
+        'PASSWORD':'00000000',
+        'HOST':'localhost',
+        'PORT':'3306', 
+        'OPTIONS': {
+            'charset': 'utf8mb4'
+        }
+    }   
 }
-
-
 # Password validation
 # https://docs.djangoproject.com/en/5.1/ref/settings/#auth-password-validators
 
@@ -127,3 +134,14 @@ STATICFILES_DIRS = [BASE_DIR / 'static']
 # https://docs.djangoproject.com/en/5.1/ref/settings/#default-auto-field
 
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
+
+# 配置Django 後端 email設置
+
+# gmail版本
+EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
+EMAIL_HOST = 'smtp.gmail.com'  # Gmail 的 SMTP 伺服器
+EMAIL_PORT = 587  # TLS 通訊埠號
+EMAIL_USE_TLS = True  # 啟用 TLS 加密
+EMAIL_HOST_USER = 'hellendjango@gmail.com'  # 您的 Gmail 帳號
+EMAIL_HOST_PASSWORD = 'xomd epey epbq hwcn'  # 應用程式密碼，保留空格
+

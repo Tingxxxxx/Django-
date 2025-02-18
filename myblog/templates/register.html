@@ -1,10 +1,23 @@
 {% extends "base.html" %}
-{% block title %}註冊頁面{% endblock title %}
+{% load static %}
+
+{% block title %}
+    註冊頁面
+{% endblock title %}
+
+{% block head %}
+<!--先引入JQuery -->
+<script src="https://code.jquery.com/jquery-3.6.4.min.js"></script>
+<!-- 後引入獲取驗證碼點擊事件的js -->
+<script src= "{% static 'js/register.js' %}"></script>
+{% endblock head %}
+
 {% block main %}
 <main class="container bg-white p-3 rounded">
   <div style="max-width: 400px;" class="m-auto">
       <h1 class="mb-4">註冊</h1>
       <form action="" method="POST">
+        {% csrf_token %}
           <!-- 用戶名 -->
           <div class="mb-3">
               <label for="username" class="form-label">用戶名</label>
@@ -19,8 +32,8 @@
           <div class="mb-3">
               <label for="captcha" class="form-label">驗證碼</label>
               <div class="input-group">
-                  <input type="text" class="form-control" id="captcha" placeholder="請輸入驗證碼" name="captcha" required>
-                  <button class="btn btn-outline-secondary" type="button">獲取驗證碼</button>
+                  <input type="text" class="form-control" id="captcha" placeholder="請輸入驗證碼" name="verifycode" required>
+                  <button class="btn btn-outline-secondary" type="button" id='verifycode'>獲取驗證碼</button>
               </div>
           </div>
           <!-- 密碼 -->
