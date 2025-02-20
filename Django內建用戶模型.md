@@ -290,14 +290,15 @@ from django.urls import reverse, reverse_lazy
 def profile(request):
     # 渲染個人資料頁面
     return render(request, 'profile.html')
-```
-✅`login_required`裝飾器如果不傳參，默認導向`settings.py`中`LOGIN_URL`設定的頁面
-✅ 如果傳入了`login_url`參數，需使用`reverse_lazy()`而不是`reverse()`
 
+  
+✅**login_required**裝飾器如果不傳參，默認導向**settings.py**中**LOGIN_URL**設定的頁面
+✅ 如果傳入了**login_url**參數，需使用**reverse_lazy()**而不是**reverse()**
+```
 #### 直接在 urls.py中使用 `login_required()` 來保護多個視圖：
 ```python
 urlpatterns = [
-    # 使用 @login_required 保護多個視圖
+    # 使用 login_required() 保護多個視圖
     path('profile/', login_required(views.profile), name='profile'),
     path('settings/', login_required(views.settings), name='settings'),
 ]
@@ -307,7 +308,7 @@ LOGIN_URL = 'accounts:login' # 如果有設定命名空間(account應用的 name
 # LOGIN_URL = 'accounts/login' # 如果沒有設定命名空間
 
 ```
-
+---
 ## 🔥 **總結**
 
 🔥 **總結**  
