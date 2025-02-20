@@ -172,7 +172,71 @@ def user_login(request: HttpRequest):
 
 ---
 
-## 6. `authenticate()`
+## 6. `logout()`
+
+`logout()`用於登出用戶，會清除 session 使目前用戶失效。
+
+### **使用方式**
+
+```python
+from django.contrib.auth import logout
+from django.shortcuts import redirect
+
+def user_logout(request):
+    logout(request)  # 執行登出操作，清除 session
+    return redirect("login")  # 登出後跳轉到登入頁面
+```
+**返回值：**： None，但會清除request.user訊息，使其變成匿名使用者。
+
+> **注意**：logout()只是清除session，不會影響User模型的資料。
+
+---
+
+## 7. `is_authenticated`屬性
+is_authenticated屬性用途來判斷目前帳戶是否已登入。
+
+### **使用方式**
+
+```python
+from django.shortcuts import render, redirect
+
+def home(request):
+    if request.user.is_authenticated:
+        # 如果用戶已經登錄，渲染首頁模板
+        return render(request, 'home.html')
+    else:
+        # 如果用戶未登錄，重定向到登錄頁面
+        return redirect('login')
+```
+### **在模板中使用 is_authenticated 來顯示或隱藏特定內容**
+```html
+<!DOCTYPE html>
+<html>
+<head>
+    <title>My Website</title>
+</head>
+<body>
+    <!-- 頁面導航欄 -->
+    <nav>
+        <!-- 判斷用戶是否已經登錄 -->
+        {% if user.is_authenticated %}
+            <!-- 如果用戶已經登錄，顯示個人資料和登出連結 -->
+            <a href="{% url 'profile' %}">Profile</a>
+            <a href="{% url 'logout' %}">Logout</a>
+        {% else %}
+            <!-- 如果用戶未登錄，顯示登入和註冊連結 -->
+            <a href="{% url 'login' %}">Login</a>
+            <a href="{% url 'signup' %}">Sign Up</a>
+        {% endif %}
+    </nav>
+    <!-- 其他內容 -->
+</body>
+</html>
+
+```
+
+--- 
+## 8. `authenticate()`
 
 `authenticate()` 用於驗證用戶憑據（如用戶名和密碼）。
 
@@ -211,14 +275,51 @@ def user_login(request):
 
 ---
 
+## 9. `@login_required`裝飾器
+在視圖函數上使用 `@login_required 裝飾器`，確保只有已登錄的用戶才能訪問該視圖。如果用戶未登錄，將會被重定向到登錄頁面
+
+### **使用方式**
+
+```python
+# 導入 @login_required 裝飾器
+from django.contrib.auth.decorators import login_required
+from django.urls import reverse, reverse_lazy
+
+
+@login_required(login_url=reverse_lazy('accounts:login'))
+def profile(request):
+    # 渲染個人資料頁面
+    return render(request, 'profile.html')
+```
+✅`login_required`裝飾器如果不傳參，默認導向`settings.py`中`LOGIN_URL`設定的頁面
+✅ 如果傳入了`login_url`參數，需使用`reverse_lazy()`而不是`reverse()`
+
+#### 直接在 urls.py中使用 `login_required()` 來保護多個視圖：
+```python
+urlpatterns = [
+    # 使用 @login_required 保護多個視圖
+    path('profile/', login_required(views.profile), name='profile'),
+    path('settings/', login_required(views.settings), name='settings'),
+]
+
+# 在settings.py 設置重定向的登錄頁面 URL
+LOGIN_URL = 'accounts:login' # 如果有設定命名空間(account應用的 name=login 的url)
+# LOGIN_URL = 'accounts/login' # 如果沒有設定命名空間
+
+```
+
 ## 🔥 **總結**
 
-| 方法                           | 作用                   | 返回值 |
-| ---------------------------- | -------------------- | ----- |
-| `User.objects.create_user()` | 創建用戶並加密密碼            | `User` 對象 |
-| `UserCreationForm`           | 內建的用戶註冊表單，含基礎驗證      | `is_valid()` 返回 `True` 或 `False`， `save()` 返回 `User` |
-| `get_user_model()`           | 獲取當前使用的用戶模型（適用於自訂模型） | `User` 類 |
-| `check_password()`           | 檢查密碼是否正確             | `True` 或 `False` |
-| `authenticate()`             | 驗證用戶憑據（帳號+密碼）        | `User` 或 `None` |
-| `login()`                    | 讓用戶登入並存入 session     | `None` |
+🔥 **總結**  
 
+| **方法**                     | **作用**                                      | **返回值**                               |  
+|------------------------------|-----------------------------------------------|------------------------------------------|  
+| `User.objects.create_user()` | 創建用戶並加密密碼                            | `User` 對象                             |  
+| `UserCreationForm`           | 內建的用戶註冊表單，含基礎驗證                | `is_valid()` 返回 `True` 或 `False`，`save()` 返回 `User` |  
+| `get_user_model()`           | 獲取當前使用的用戶模型（適用於自訂模型）      | `User` 類                               |  
+| `check_password()`           | 檢查密碼是否正確                              | `True` 或 `False`                       |  
+| `authenticate()`             | 驗證用戶憑據（帳號+密碼）                      | `User` 或 `None`                        |  
+| `login()`                    | 讓用戶登入並存入 session                      | `None`                                  |  
+| `logout()`                   | 讓用戶登出，清除 session                      | `None`                                  |  
+| `is_authenticated`           | 判斷用戶是否已登入                            | `True`（已登入）或 `False`（未登入）    |  
+| `@login_required`            | 限制未登入用戶訪問指定視圖，未登入則跳轉登入頁 | `None`（未登入則重定向到登入頁）        |  
