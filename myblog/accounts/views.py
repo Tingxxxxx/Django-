@@ -1,11 +1,11 @@
 from django.shortcuts import render,redirect,reverse
 from django.core.mail import send_mail
-from django.http import JsonResponse
+from django.http import HttpResponse, JsonResponse
 from .models import VerifycodeMode
 from django.views.decorators.http import require_http_methods
 from .form import *
-from django.contrib.auth import get_user_model
-
+from django.contrib.auth import *
+from django.contrib.auth.models import User
 import string # 用來取得0~9字串並取樣
 import random 
 
@@ -15,10 +15,38 @@ User = get_user_model()
 # Create your views here.
 
 # 登入
-def login(request):
-    
-    
-    return render(request,'login.html')
+@require_http_methods(['GET', 'POST'])  
+def user_login(request):
+    if request.method == 'POST':  
+        form = LoginForm(request.POST)
+        if form.is_valid():  # 表單數據驗證
+            email = form.cleaned_data.get('email')  
+            password = form.cleaned_data.get('password')  
+            remember = form.cleaned_data.get('remember') 
+
+            # 根據用戶輸入的信箱到資料庫查詢是否有對應的用戶資料
+            user = User.objects.filter(email=email).first()  # first()：有查到會返回 user 對象，沒查到返回 None
+
+            # 如果該用戶存在，且密碼正確
+            if user and user.check_password(password):
+                # 使用 login 函數登入，且該函數會自動將資料存到 session
+                login(request, user)
+
+                # 如果用戶未勾選記住我
+                if not remember:
+                    # 0 表示瀏覽器關閉就清除 session 資料
+                    request.session.set_expiry(0)
+                    # 用戶有勾選記住我則使用 Django 默認設置（兩周）
+
+                return redirect('/')  # 登入成功後跳轉到首頁
+            else:
+                # 用戶登入失敗，顯示錯誤訊息
+                print('信箱或密碼錯誤') # 僅後端開發測試用，實際業務開發可用ajax+js前端再處理
+
+    else:  # 處理 GET 請求
+        form = LoginForm()  # 初始化空白表單
+
+    return render(request, 'login.html', {'form': form})  # 渲染登錄頁面
 
 # 註冊
 @require_http_methods(['GET','POST'])
@@ -77,5 +105,3 @@ def send_verify_code(request):
     )
     
     return JsonResponse({"code": 200, "message": "驗證信發送成功"}, json_dumps_params={'ensure_ascii': False})
-
-    

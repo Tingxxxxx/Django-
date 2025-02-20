@@ -64,8 +64,8 @@
     
             <div class="text-end">
               <!-- 使用加粗邊框的登錄按鈕 -->
-              <button type="button" class="btn btn-outline-primary me-2">登入</button>
-              <button type="button" class="btn btn-primary">註冊</button>
+               <a href="{% url "accounts:login" %}" type="button" class="btn btn-outline-primary me-2">登入</a>
+               <a href="{% url "accounts:register" %}" type="button" class="btn btn-primary">註冊</a>
             </div>
           </div>
         </div>

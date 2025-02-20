@@ -6,6 +6,7 @@
   <div style="max-width: 400px;" class="m-auto">
       <h1 class="mb-4">登入</h1>
       <form action="" method="POST">
+        {% csrf_token %}
           <!-- 信箱 -->
           <div class="mb-3">
               <label for="email" class="form-label">信箱</label>

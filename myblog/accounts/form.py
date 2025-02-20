@@ -40,7 +40,7 @@ class RegisterForm(forms.Form):
     # 重寫驗證方法
     def clean_email(self):
         email = self.cleaned_data.get('email')
-        
+
         # 檢查 email 是否為 None
         if not email:
             raise forms.ValidationError('請輸入電子信箱')        
@@ -73,4 +73,11 @@ class RegisterForm(forms.Form):
 
 
         
-        
+class LoginForm(forms.Form):
+    email = forms.EmailField(error_messages={
+        "required":'請輸入電子信箱',
+        'invalid':'請輸入有效的電子信箱'})
+    password = forms.CharField(max_length=20,min_length=6,error_messages={
+        'max_length':'秘密必須在6~20位之間',
+        'min_length':'秘密必須在6~20間'})
+    remember = forms.IntegerField(required=False)  # 記住我，可允許留空
