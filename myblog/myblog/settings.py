@@ -129,6 +129,11 @@ STATIC_URL = 'static/'
 # 配置靜態資源文件夾路徑
 STATICFILES_DIRS = [BASE_DIR / 'static']
 
+# # 設置重定向的登錄頁面 URL(即使用@login_required裝飾器保護的函數，如未登入會重定向到哪個頁面)
+# LOGIN_URL = 'accounts:login' # 如果有設定命名空間(account應用的 name=login 的url)
+# # LOGIN_URL = 'accounts/login' # 如果沒有設定命名空間
+
+
 
 # Default primary key field type
 # https://docs.djangoproject.com/en/5.1/ref/settings/#default-auto-field

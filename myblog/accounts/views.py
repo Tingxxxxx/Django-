@@ -48,6 +48,12 @@ def user_login(request):
 
     return render(request, 'login.html', {'form': form})  # 渲染登錄頁面
 
+# 登出
+def user_logout(request):
+    # 使用logout()函數 會自動刪除session
+    logout(request) 
+    return redirect('/')
+
 # 註冊
 @require_http_methods(['GET','POST'])
 def register(request):
