@@ -292,8 +292,8 @@ def profile(request):
     return render(request, 'profile.html')
 
   
-✅**login_required**裝飾器如果不傳參，默認導向**settings.py**中**LOGIN_URL**設定的頁面
-✅ 如果傳入了**login_url**參數，需使用**reverse_lazy()**而不是**reverse()**
+    ✅ `login_required` 裝飾器如果不傳參，默認導向`settings.py`中`LOGIN_URL`設定的頁面
+    ✅ 如果傳入了`login_url`參數，需使用`reverse_lazy()`而不是`reverse()`
 ```
 #### 直接在 urls.py中使用 `login_required()` 來保護多個視圖：
 ```python
