@@ -58,10 +58,11 @@
               <li><a href="{% url "blog:pub_blog" %}" class="nav-link px-2 text-light">發布文章</a></li>
             </ul>
     
-            <form class="col-12 col-lg-auto mb-3 mb-lg-0 me-lg-3" role="search">
-              <input type="search" class="form-control text-bg-light" placeholder="Search..." aria-label="Search">
+            <form action= "{% url 'blog:search_blog' %}" method='GET' class="col-12 col-lg-auto mb-3 mb-lg-0 me-lg-3" role="search">
+              {% csrf_token %}
+              <input type="search" name='search' class="form-control text-bg-light" placeholder="Search..." aria-label="Search">
             </form>
-
+              {% csrf_token %}
               <!-- 判斷用戶是否處於登入狀態 -->
                {% if user.is_authenticated %}
                <div class="flex-shrink-0 dropdown">

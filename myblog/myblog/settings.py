@@ -11,7 +11,7 @@ https://docs.djangoproject.com/en/5.1/ref/settings/
 """
 
 from pathlib import Path
-
+import os
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
@@ -130,9 +130,12 @@ STATIC_URL = 'static/'
 STATICFILES_DIRS = [BASE_DIR / 'static']
 
 # # 設置重定向的登錄頁面 URL(即使用@login_required裝飾器保護的函數，如未登入會重定向到哪個頁面)
-# LOGIN_URL = 'accounts:login' # 如果有設定命名空間(account應用的 name=login 的url)
+LOGIN_URL = 'accounts:login' # 如果有設定命名空間(account應用的 name=login 的url)
 # # LOGIN_URL = 'accounts/login' # 如果沒有設定命名空間
 
+# 媒體文件存儲路徑和URL
+MEDIA_ROOT = os.path.join(BASE_DIR, 'media')  # Django 上傳的媒體(ex:圖片)文件應該存儲在哪個文件夾
+MEDIA_URL = '/media/' # 通過哪個URL來訪問上傳的媒體文件
 
 
 # Default primary key field type

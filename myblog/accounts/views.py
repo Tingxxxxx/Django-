@@ -6,6 +6,7 @@ from django.views.decorators.http import require_http_methods
 from .form import *
 from django.contrib.auth import *
 from django.contrib.auth.models import User
+from django.contrib import messages
 import string # 用來取得0~9字串並取樣
 import random 
 
@@ -41,8 +42,8 @@ def user_login(request):
                 return redirect('/')  # 登入成功後跳轉到首頁
             else:
                 # 用戶登入失敗，顯示錯誤訊息
+                messages.error(request, '信箱或密碼錯誤')  # 顯示錯誤訊息
                 print('信箱或密碼錯誤') # 僅後端開發測試用，實際業務開發可用ajax+js前端再處理
-
     else:  # 處理 GET 請求
         form = LoginForm()  # 初始化空白表單
 
@@ -76,11 +77,11 @@ def register(request):
         
         # 表單驗證失敗，則回到註冊頁面
         else:
-            print(form.errors)
+            messages.error(request, '註冊失敗,請重新註冊')  # 顯示錯誤訊息
             # 方式1: 可重渲染註冊模板，且可通過context傳遞的form 來顯示錯誤訊息
-            # return render(request,'register.html',context={"form":form}) 
+            return render(request,'register.html',context={"form":form}) 
             # 方式2: 重定向跳轉到註冊頁
-            return redirect(reverse('accounts:register'))
+            # return redirect(reverse('accounts:register'))
 
 
 

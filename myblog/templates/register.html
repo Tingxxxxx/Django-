@@ -48,4 +48,10 @@
       </form>
   </div>
 </main>
+{% if messages %}
+    <script type="text/javascript">
+        alert("{% for message in messages %}{{ message }}{% endfor %}");
+    </script>
+{% endif %}
 {% endblock main %}
+    

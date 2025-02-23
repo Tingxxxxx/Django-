@@ -37,7 +37,7 @@ $(function(){
             
 
             // 設置倒數計時的初始值
-            let counter = 60
+            let counter = 60*5
             // 開始倒數計時
             let timer = setInterval(function(){
                 // 如果倒數結束，將按鈕文字設置為“獲取驗證碼”
