@@ -1,0 +1,57 @@
+{% extends "base.html" %}
+{% load static %}
+
+{% block title %}
+    註冊頁面
+{% endblock title %}
+
+{% block head %}
+<!--先引入JQuery -->
+<script src="https://code.jquery.com/jquery-3.6.4.min.js"></script>
+<!-- 後引入獲取驗證碼點擊事件的js -->
+<script src= "{% static 'js/register.js' %}"></script>
+{% endblock head %}
+
+{% block main %}
+<main class="container bg-white p-3 rounded">
+  <div style="max-width: 400px;" class="m-auto">
+      <h1 class="mb-4">註冊</h1>
+      <form action="" method="POST">
+        {% csrf_token %}
+          <!-- 用戶名 -->
+          <div class="mb-3">
+              <label for="username" class="form-label">用戶名</label>
+              <input type="text" class="form-control" id="username" placeholder="請輸入用戶名" name="username" required>
+          </div>
+          <!-- 信箱 -->
+          <div class="mb-3">
+              <label for="email" class="form-label">信箱</label>
+              <input type="email" class="form-control" id="email" placeholder="請輸入電子信箱" name="email" required>
+          </div>
+          <!-- 驗證碼 -->
+          <div class="mb-3">
+              <label for="captcha" class="form-label">驗證碼</label>
+              <div class="input-group">
+                  <input type="text" class="form-control" id="captcha" placeholder="請輸入驗證碼" name="verifycode" required>
+                  <button class="btn btn-outline-secondary" type="button" id='verifycode'>獲取驗證碼</button>
+              </div>
+          </div>
+          <!-- 密碼 -->
+          <div class="mb-3">
+              <label for="password" class="form-label">密碼</label>
+              <input type="password" class="form-control" id="password" placeholder="請輸入密碼" name="password" required>
+          </div>
+          <!-- 註冊按鈕 -->
+          <div class="mb-3">
+              <button type="submit" class="btn btn-primary w-100">立即註冊</button>
+          </div>
+      </form>
+  </div>
+</main>
+{% if messages %}
+    <script type="text/javascript">
+        alert("{% for message in messages %}{{ message }}{% endfor %}");
+    </script>
+{% endif %}
+{% endblock main %}
+    

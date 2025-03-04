@@ -1,0 +1,40 @@
+{% extends "base.html" %}
+{% block title %}登入頁面{% endblock title %}
+
+{% block main %}
+<main class="container bg-white p-3 rounded">
+  <div style="max-width: 400px;" class="m-auto">
+      <h1 class="mb-4">登入</h1>
+      <form action="" method="POST">
+        {% csrf_token %}
+          <!-- 信箱 -->
+          <div class="mb-3">
+              <label for="email" class="form-label">信箱</label>
+              <input type="email" class="form-control" id="email" placeholder="請輸入電子信箱" name="email" required>
+          </div>
+          <!-- 密碼 -->
+          <div class="mb-3">
+              <label for="password" class="form-label">密碼</label>
+              <input type="password" class="form-control" id="password" placeholder="請輸入密碼" name="password" required>
+          </div>
+          <!-- 記住我 -->
+          <div class="form-check mb-3">
+              <input class="form-check-input" type="checkbox" name="remember" value="1" id="flexCheckDefault">
+              <label class="form-check-label" for="flexCheckDefault">
+                  記住我
+              </label>
+          </div>
+          <!-- 登入按鈕 -->
+          <div class="mb-3">
+              <button type="submit" class="btn btn-primary w-100">登入</button>
+          </div>
+      </form>
+  </div>
+</main>
+{% if messages %}
+    <script type="text/javascript">
+        alert("{% for message in messages %}{{ message }}{% endfor %}");
+    </script>
+{% endif %}
+
+{% endblock main %}

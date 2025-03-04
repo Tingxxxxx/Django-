@@ -1,0 +1,58 @@
+{% extends "base.html" %}
+{% load static %}
+{% block title %}發布文章{% endblock title %}
+
+{% block head %}
+<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+<link href="https://unpkg.com/@wangeditor/editor@latest/dist/css/style.css" rel="stylesheet">
+<script src="https://unpkg.com/@wangeditor/editor@latest/dist/index.js"></script>
+<script>
+    var E = window.wangEditor;
+</script>
+<script src="{% static 'js/pub_blog.js' %}"></script>
+<style>
+  #editor-wrapper {
+    border: 1px solid #ccc;
+    z-index: 100;
+  }
+  #toolbar-container {
+    border-bottom: 1px solid #ccc;
+  }
+  #editor-container {
+    height: 500px;
+  }
+</style>
+{% endblock head %}
+
+{% block main %}
+<main class="container bg-white p-3 rounded">
+    <h1>發布文章</h1>
+    <div class="mt-2">
+      <form action="" method="POST">
+          {% csrf_token %}
+        <div class="mb-3">
+          <label class="form-label">標題</label>
+          <input type="text" name="title" class="form-control">
+        </div>
+        <div class="mb-3">
+          <label class="form-label">分類</label>
+          <select name="category" class="form-select">
+            {% for category in categorys %}
+                <option value="{{ category.id }}">{{ category.name }}</option>
+            {% endfor %}
+          </select>
+        </div>
+        <div class="mb-3">
+          <label class="form-label">內容</label>
+            <div id="editor-wrapper">
+              <div id="toolbar-container"></div>
+              <div id="editor-container"></div>
+            </div>
+            <div class="mb-3 text-end">
+              <button class="btn btn-primary" id="submit-btn">發布</button>
+            </div>
+        </div>
+      </form>
+    </div>
+</main>
+{% endblock main %}
