@@ -19,4 +19,5 @@ from django.urls import path,include
 urlpatterns = [
     path('api-auth/', include('rest_framework.urls')),  # 可以訪問 DRF 的登入、登出URL
     path('admin/', admin.site.urls),
+    path('courses/', include('course.urls'))
 ]
