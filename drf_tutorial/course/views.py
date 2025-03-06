@@ -1,12 +1,17 @@
 from rest_framework.response import Response
 from rest_framework import status
+from rest_framework import generics, viewsets
 from rest_framework.decorators import api_view, APIView
 from rest_framework.exceptions import NotFound, ValidationError
 from .models import Course
 from .serializers import CourseSerializer
 
 """
-課程API接口的四種寫法
+課程API接口的四種寫法:
+1. 函數式FBV
+2. 類視圖CBV
+3. 通用類視圖GCBV
+4. 視圖集Viewset
 
 實現方法:
 1. GET: 獲取所有課程
@@ -151,7 +156,28 @@ class CourseDetailView(APIView):
         return Response(status=status.HTTP_204_NO_CONTENT)
 
 
-# """通用類視圖 Gernic Base View"""
+
+"""通用類視圖 Generic Based View"""
+class GCourseListView(generics.ListCreateAPIView): # ListCreateAPIView 提供GET與POST請求
+    # 覆寫父類屬性，注意:前面的屬性名是固定的
+    queryset = Course.objects.all() # 指定查詢集
+    serializer_class = CourseSerializer # 指定序列化器
+    
+    def perform_create(self, serializer):  # 覆寫父類POST請求時調用的方法
+        serializer.save(teacher=self.request.user) # 加入講師欄
+
+class GCourseDetailView(generics.RetrieveUpdateDestroyAPIView): # 提供GET(查指定)、PUT、PATCH、DELETE
+    queryset = Course.objects.all()
+    serializer_class = CourseSerializer
 
 
-# """視圖集 Viewset Base View"""
+"""視圖集 Viewset"""
+class CourseListDetailViewset(viewsets.ModelViewSet):
+    queryset = Course.objects.all()  # 指定查詢集
+    serializer_class = CourseSerializer  # 指定序列化器
+
+    def perform_create(self, serializer): # 重寫POST請求調用的方法
+        serializer.save(teacher=self.request.user) # 加入講師欄
+
+    
+    
