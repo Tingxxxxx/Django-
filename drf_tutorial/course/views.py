@@ -3,6 +3,8 @@ from rest_framework import status
 from rest_framework import generics, viewsets
 from rest_framework.decorators import api_view, APIView
 from rest_framework.exceptions import NotFound, ValidationError
+from rest_framework.decorators import authentication_classes
+from rest_framework.authentication import TokenAuthentication, SessionAuthentication, BasicAuthentication
 from .models import Course
 from .serializers import CourseSerializer
 
@@ -19,12 +21,28 @@ from .serializers import CourseSerializer
 3. PUT: 完整覆蓋更新一個現有的課程
 4. PATCH: 僅修改課程訊息的某個欄位
 5. DELETE: 刪除指定的課程
+
+# 認證:
+使用Django的信號機制與@reciver裝飾器，實現創建用戶自動生成token
 """
+
+
+"""自動生成TOKEN函數"""
+from django.db.models.signals import post_save
+from django.dispatch import receiver
+from django.contrib.auth.models import User
+from rest_framework.authtoken.models import Token
+
+@receiver(post_save, sender=User) # sender=發送信號的模型類
+def create_token(sender, instance=None, created=False, **kwargs):
+    """創建用戶時自動觸發函數並生成token"""
+    if created:
+        Token.objects.create(user=instance) # 用傳進來的User實例，在Token 表使用.create()方法創建並保存
 
 
 """函數式 Function Base View """
 
-
+@authentication_classes([TokenAuthentication]) # 限制只能用token驗證
 @api_view(["GET", "POST"])
 def course_list(request):
     """
@@ -101,6 +119,8 @@ def course_detail(request, pk):  # pk為url裡面傳遞過來的
 
 """類視圖 Class Based View """
 class CourseListView(APIView):
+    # 指定驗證方式
+    authentication_classes = (TokenAuthentication, BasicAuthentication)  
     def get(self, request):
         """獲取所有課程資料"""
         courses = Course.objects.all()
@@ -117,6 +137,8 @@ class CourseListView(APIView):
 
 
 class CourseDetailView(APIView):
+    # 指定驗證方式
+    # authentication_classes = ()
     @staticmethod
     def get_obj(pk):
         """獲取指定的課程模型實例"""
@@ -159,6 +181,8 @@ class CourseDetailView(APIView):
 
 """通用類視圖 Generic Based View"""
 class GCourseListView(generics.ListCreateAPIView): # ListCreateAPIView 提供GET與POST請求
+    # 指定驗證方式
+    # authentication_classes = ()
     # 覆寫父類屬性，注意:前面的屬性名是固定的
     queryset = Course.objects.all() # 指定查詢集
     serializer_class = CourseSerializer # 指定序列化器
@@ -173,6 +197,8 @@ class GCourseDetailView(generics.RetrieveUpdateDestroyAPIView): # 提供GET(查�
 
 """視圖集 Viewset"""
 class CourseListDetailViewset(viewsets.ModelViewSet):
+    # 指定驗證方式
+    authentication_classes = [TokenAuthentication] # 注意元組中只有一個值加,或者使用[]
     queryset = Course.objects.all()  # 指定查詢集
     serializer_class = CourseSerializer  # 指定序列化器
 

@@ -14,10 +14,15 @@ Including another URLconf
     2. Add a URL to urlpatterns:  path('blog/', include('blog.urls'))
 """
 from django.contrib import admin
-from django.urls import path,include
+from django.urls import path, include
+from rest_framework.authtoken import views
+
 
 urlpatterns = [
-    path('api-auth/', include('rest_framework.urls')),  # 可以訪問 DRF 的登入、登出URL
+    path('api-token-auth/', views.obtain_auth_token),     # DRF 內建獲取 TOKEN 的 API 接口
+    path('api-auth/', include('rest_framework.urls')),  # 可以訪問 DRF 的登入、登出 URL
     path('admin/', admin.site.urls),
     path('courses/', include('course.urls'))
+
+
 ]
