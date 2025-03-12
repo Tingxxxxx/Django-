@@ -5,6 +5,8 @@ from rest_framework.decorators import api_view, APIView
 from rest_framework.exceptions import NotFound, ValidationError
 from rest_framework.decorators import authentication_classes
 from rest_framework.authentication import TokenAuthentication, SessionAuthentication, BasicAuthentication
+from rest_framework.permissions import IsAuthenticatedOrReadOnly, AllowAny, IsAdminUser
+from .permissions import IsOwner
 from .models import Course
 from .serializers import CourseSerializer
 
@@ -186,7 +188,6 @@ class GCourseListView(generics.ListCreateAPIView): # ListCreateAPIView 提供GET
     # 覆寫父類屬性，注意:前面的屬性名是固定的
     queryset = Course.objects.all() # 指定查詢集
     serializer_class = CourseSerializer # 指定序列化器
-    
     def perform_create(self, serializer):  # 覆寫父類POST請求時調用的方法
         serializer.save(teacher=self.request.user) # 加入講師欄
 
@@ -198,7 +199,9 @@ class GCourseDetailView(generics.RetrieveUpdateDestroyAPIView): # 提供GET(查�
 """視圖集 Viewset"""
 class CourseListDetailViewset(viewsets.ModelViewSet):
     # 指定驗證方式
-    authentication_classes = [TokenAuthentication] # 注意元組中只有一個值加,或者使用[]
+    authentication_classes = [BasicAuthentication, TokenAuthentication] # 注意元組中只有一個值加,或者使用[]
+    # 指定自訂的權限類，僅有對像擁有者可訪問
+    permission_classes = [IsOwner]
     queryset = Course.objects.all()  # 指定查詢集
     serializer_class = CourseSerializer  # 指定序列化器
 
