@@ -87,6 +87,8 @@ DATABASES = {
 }
 
 
+
+
 # Password validation
 # https://docs.djangoproject.com/en/3.0/ref/settings/#auth-password-validators
 
@@ -184,4 +186,28 @@ REST_FRAMEWORK = {
     # ✅ 設定 API 過濾器後端
     'DEFAULT_FILTER_BACKENDS': ['django_filters.rest_framework.DjangoFilterBackend'],
 
+    # ✅ 設定 API 限流策略
+    'DEFAULT_THROTTLE_CLASSES': [
+        'rest_framework.throttling.AnonRateThrottle',  # drf內建:限制匿名用戶的請求
+        'rest_framework.throttling.UserRateThrottle',  # drf內建:限制已認證用戶的請求
+        'course.throttles.Mythrottle',    # 自定義限流策略
+
+    ],
+    'DEFAULT_THROTTLE_RATES': {
+        'anon': '10/min',  # 匿名用戶每分鐘最多10次請求
+        'user': '100/min',  # 已認證用戶每分鐘最多100次請求
+        'vip': '200/min',  # 自訂的限流策略，vip 每分鐘最多200次請求
+    }
+}
+
+
+# 快取引擎
+CACHES = {
+    'default': {
+        'BACKEND': 'django_redis.cache.RedisCache',
+        'LOCATION': 'redis://127.0.0.1:6379/1',  # 連接 Redis，預設使用 localhost 和 port 6379，DB 1
+        'OPTIONS': {
+            'CLIENT_CLASS': 'django_redis.client.DefaultClient',
+        }
+    }
 }

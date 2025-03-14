@@ -12,7 +12,7 @@ from .filters import CourseFilter
 from .permissions import IsOwner
 from .models import Course
 from .serializers import CourseSerializer
-
+from .throttles import Mythrottle
 
 """
 課程API接口的四種寫法:
@@ -208,6 +208,9 @@ class CourseListDetailViewset(viewsets.ModelViewSet):
     permission_classes = [IsOwner]
     queryset = Course.objects.all()  # 指定查詢集
     serializer_class = CourseSerializer  # 指定序列化器
+
+    # 限流
+    throttle_classes = [Mythrottle]
     
     # 搜尋與排序功能
     filter_backends = [SearchFilter, OrderingFilter]
