@@ -181,4 +181,7 @@ REST_FRAMEWORK = {
         'rest_framework.authentication.SessionAuthentication',  # 會話認證（與 Django 內建登入機制相容）
         'rest_framework.authentication.TokenAuthentication',  # Token 認證（需在APP安裝 `rest_framework.authtoken`）
     ],
+    # ✅ 設定 API 過濾器後端
+    'DEFAULT_FILTER_BACKENDS': ['django_filters.rest_framework.DjangoFilterBackend'],
+
 }

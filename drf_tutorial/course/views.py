@@ -6,9 +6,12 @@ from rest_framework.exceptions import NotFound, ValidationError
 from rest_framework.decorators import authentication_classes
 from rest_framework.authentication import TokenAuthentication, SessionAuthentication, BasicAuthentication
 from rest_framework.permissions import IsAuthenticatedOrReadOnly, AllowAny, IsAdminUser
+from django_filters.rest_framework import DjangoFilterBackend
+from .filters import CourseFilter
 from .permissions import IsOwner
 from .models import Course
 from .serializers import CourseSerializer
+
 
 """
 課程API接口的四種寫法:
@@ -203,8 +206,11 @@ class CourseListDetailViewset(viewsets.ModelViewSet):
     # 指定自訂的權限類，僅有對像擁有者可訪問
     permission_classes = [IsOwner]
     queryset = Course.objects.all()  # 指定查詢集
-    serializer_class = CourseSerializer  # 指定序列化器
-
+    serializer_class = CourseSerializer  # 
+    
+    # filterset_fields = ['teacher__username', 'name'] # 簡單指定過濾器欄位，可用於外鍵跨欄位過濾，或一般欄位精準匹配
+    filterset_class = CourseFilter # 使用自訂義的過濾器類
+    
     def perform_create(self, serializer): # 重寫POST請求調用的方法
         serializer.save(teacher=self.request.user) # 加入講師欄
 
