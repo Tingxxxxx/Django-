@@ -30,6 +30,29 @@ user = User.objects.create_user(username='testuser', email='test@example.com', p
 
 **返回值：** `create_user()` 方法會返回新建的 `User` 對象。
 
+
+
+### 自訂義用戶模型:
+如果要自訂義用戶模型類需繼承自`AbstractUser`類，並且到`settings.py`中修改`AUTH_USER_MODEL`配置，一般常見如新增手機號(內建的沒有提供)
+```python
+# 自定義模型類
+class User(AbstractUser):
+    mobile = models.CharField(
+        max_length=10,
+        unique=True,
+        blank=False,
+        null=False)
+
+    class Meta:
+        db_table = 'users'
+        verbose_name = "用戶"
+        verbose_name_plural = verbose_name
+```   
+**修改`settings.py`中的默認用戶模型設定**
+```python
+# users app下的 User 模型
+AUTH_USER_MODEL = users.User
+```
 ---
 
 ## 2. `UserCreationForm` 表單類
@@ -106,7 +129,7 @@ User = get_user_model()
 
 ---
 
-## 4. `check_password()`
+## 4.1 `check_password()`
 
 `check_password()` 用來驗證用戶輸入的密碼是否正確。
 
@@ -126,6 +149,21 @@ else:
 ```
 
 **返回值：** `True`（密碼匹配）或 `False`（密碼錯誤）。
+
+---
+
+## 4.2 `set_password()`
+
+`set_password()` 
+
+### **使用方式**
+
+```python
+
+```
+
+**返回值：** `True`（密碼匹配）或 `False`（密碼錯誤）。
+
 
 ---
 
